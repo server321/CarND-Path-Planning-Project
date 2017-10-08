@@ -10,10 +10,10 @@ The program written in C++ to plan and generate safe and smooth trajectories to 
 
 ## Implementation
 
-## Generate interpolated nearby waypoints
+### Generate interpolated nearby waypoints
 The data of track waypoints given in the highway_map.csv. We take five waypoints ahead of and five waypoints behind the car.
 
-## Determine car parameters
+### Determine car parameters
 
 We get the telemetry of our car from simulator including the list of points from previously generated path.
 The car simlator recieves telemetry every .02 seconds. 
@@ -21,11 +21,11 @@ The vehilce determination methods could be found in the Vehicle class.
 We update the list of available states: KL "keep lane", LCL "lane change left", LCR "lane change right".
 
 
-## Make predictions from sensor fusion data
+### Make predictions from sensor fusion data
 Module generate predictions for sensor fusion data. The sensor fusion data received from the simulator in each iteration.
 
 
-## Calculate the best trajectory for car
+### Calculate the best trajectory for car
 This module produces an optimal trajectory.
 
 We update available states of the car. Each available state is compared to a target Frenet state (position, velocity, and acceleration). We take into account the current state and the traffic predictions.
@@ -40,7 +40,7 @@ We use the following cost functions :
 - Efficiency cost penalization for lower target velocity
 - Middle-lane cost penalization for driving other than the center line
 
-## Make a new path
+### Make a new path
 
 The program determines new path using points from the previous path received from the simulator. These points used to generate a spline beginning with the last two points of the previous path. This helps us to make a smooth trajectory. 
 We use only small increement and decrement of velocity in order to avoid excessive acceleration and jerk.
