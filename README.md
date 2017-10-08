@@ -1,5 +1,60 @@
 # CarND-Path-Planning-Project
 Self-Driving Car Engineer Nanodegree Program
+
+The goal of CarND Path Planning Project is to navigate a car on a road with given waypoints. The model should take into account traffic.
+
+The program written in C++ to plan and generate safe and smooth trajectories to drive 3 lanes highway with 50 MPH speed limit. The car should try to go as fast as possible, but not to exceed speed limit. It could pass slower cars when possible and change lanes.
+
+
+![Path-Planning-Project](path-planning-project.jpg  "Path Planning Project")
+
+##Implementation
+
+##Generate interpolated nearby waypoints
+The data of track waypoints given in the highway_map.csv. We take five waypoints ahead of and five waypoints behind the car.
+
+##Determine car parameters
+
+We get the telemetry of our car from simulator including the list of points from previously generated path.
+The car simlator recieves telemetry every .02 seconds. 
+The vehilce determination methods could be found in the Vehicle class. 
+We update the list of available states: KL "keep lane", LCL "lane change left", LCR "lane change right".
+
+
+##Make predictions from sensor fusion data
+Module generate predictions for sensor fusion data. The sensor fusion data received from the simulator in each iteration.
+
+
+##Calculate the best trajectory for car
+This module produces an optimal trajectory.
+
+We update available states of the car. Each available state is compared to a target Frenet state (position, velocity, and acceleration). We take into account the current state and the traffic predictions.
+
+Then we calculate polynomial, jerk-minimizing (JMT) trajectory for each available state and target.
+To evaluate trajectory we use a set of cost functions and then choose the trajectory with the lowest cost
+
+We use the following cost functions :
+- Collision cost
+- Distance cost penalizes a trajectory that comes within a certain distance of another traffic vehicle trajectory
+- Change lane cost penalization for change the lane with nearby traffic
+- Efficiency cost penalization for lower target velocity
+- Middle-lane cost penalization for driving other than the center line
+
+##Make a new path
+
+The program determines new path using points from the previous path received from the simulator. These points used to generate a spline beginning with the last two points of the previous path. This helps us to make a smooth trajectory. 
+We use only small increement and decrement of velocity in order to avoid excessive acceleration and jerk.
+
+#Results
+- The car is able to drive at least without incident (see screen capture). It is more than 4.32 miles requirements.
+- The car drives according to the 50 MPH speed limit.
+- Max Acceleration and Jerk are not Exceeded.
+- Car does not have collisions.
+- The car stays in its lane, except for the time between changing lanes. This time does not exceed 3 seconds
+- The car is able to change lanes and bypass other trafic
+
+
+----------
    
 ### Simulator.
 You can download the Term3 Simulator which contains the Path Planning Project from the [releases tab (https://github.com/udacity/self-driving-car-sim/releases).
